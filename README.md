@@ -43,6 +43,6 @@ docker compose up -d
 * This tool currently supports forwarding from **one** Canary dataset to **one** MQTT broker.
 * The `TIMEZONE` option is present but not yet supported.
 * Set `WAITTIME` appropriately based on your desired polling interval.
+* This requires anomyous permissions on the readapi in Canary
 
 Tested on Canary Version 23 Read API
-* This requires anomyous permissions on the readapi in Canary
