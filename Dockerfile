@@ -19,6 +19,8 @@ COPY . .
 
 RUN mkdir -p /app/logs
 
+RUN rm -rf .git
+
 RUN useradd --create-home --shell /bin/bash app \
     && chown -R app:app /app
 USER app
