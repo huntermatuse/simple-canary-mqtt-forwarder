@@ -9,6 +9,7 @@ services:
       - Canary_Url=${Canary_Url}
       - Canary_Dataset=${Canary_Dataset}
       - Mqtt_Url=${Mqtt_Url}
+      - Mqtt_Port=${Mqtt_Port:-1883}
       - TIMEZONE=${TIMEZONE:-UTC}
       - LOGLEVEL=${LOGLEVEL:-NOTSET}
       - PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
