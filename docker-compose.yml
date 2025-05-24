@@ -1,0 +1,22 @@
+services:
+  canary-mqtt-forwarder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: canary-mqtt-forwarder
+    restart: unless-stopped
+    environment:
+      - Canary_Url=${Canary_Url}
+      - Canary_Dataset=${Canary_Dataset}
+      - Mqtt_Url=${Mqtt_Url}
+      - TIMEZONE=${TIMEZONE:-UTC}
+      - LOGLEVEL=${LOGLEVEL:-NOTSET}
+      - PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f python || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
