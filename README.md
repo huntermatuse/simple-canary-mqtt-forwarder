@@ -1,5 +1,5 @@
 # simple-canary-mqtt-forwarder
-A lightweight tool for forwarding data from a single Canary dataset to a single MQTT broker.
+A lightweight tool for forwarding data from a single Canary dataset to a single MQTT broker. 
 
 ## Getting Started
 
@@ -24,6 +24,7 @@ Then, open `.env` and fill in your specific settings:
 Canary_Url=''        # URL to your Canary Historian
 Canary_Dataset=''    # Name of the Canary dataset to forward
 Mqtt_Url=''          # MQTT broker URL
+Mqtt_Port=           # MQTT broker Port
 # TIMEZONE='UTC'     # Not currently functional
 WAITTIME=0.5         # Time in seconds between data polls
 LOGLEVEL='NOTSET'    # Logging level (e.g., DEBUG, INFO, WARNING)
@@ -42,3 +43,6 @@ docker compose up -d
 * This tool currently supports forwarding from **one** Canary dataset to **one** MQTT broker.
 * The `TIMEZONE` option is present but not yet supported.
 * Set `WAITTIME` appropriately based on your desired polling interval.
+
+Tested on Canary Version 23 Read API
+* This requires anomyous permissions on the readapi in Canary
