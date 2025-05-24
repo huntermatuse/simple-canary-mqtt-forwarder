@@ -1,0 +1,6 @@
+.venv
+.env
+config.json
+canary-mqtt-settings
+__pycache__
+.ruff_cache
