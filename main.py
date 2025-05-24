@@ -23,7 +23,7 @@ load_dotenv()
 
 def setup_logging():
     """Setup logging with both console and rotating file handlers."""
-    log_dir = '/app/logs'
+    log_dir = "/app/logs"
     os.makedirs(log_dir, exist_ok=True)
 
     log_level_str = os.getenv("LOGLEVEL", "INFO").upper()
@@ -75,9 +75,10 @@ class PathTranspose:
 class MQTTForwarder:
     """Handles MQTT connection and message forwarding."""
 
-    def __init__(self, mqtt_host: str):
+    def __init__(self, mqtt_host: str, mqtt_port: int):
         self.client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         self.mqtt_host = mqtt_host
+        self.mqtt_port = mqtt_port
         self._setup_callbacks()
 
     def _setup_callbacks(self):
@@ -105,7 +106,7 @@ class MQTTForwarder:
     def connect(self) -> bool:
         """Connect to MQTT broker."""
         try:
-            self.client.connect(host=self.mqtt_host)
+            self.client.connect(host=self.mqtt_host, port=self.mqtt_port)
             self.client.loop_start()
             return True
         except Exception as e:
@@ -138,10 +139,11 @@ class CanaryDataForwarder:
         self.canary_host = os.environ.get("Canary_Url")
         self.canary_dataset = os.environ.get("Canary_Dataset")
         self.mqtt_host = os.environ.get("Mqtt_Url")
+        self.mqtt_port = int(os.environ.get("Mqtt_Port", 1883))
 
         self._validate_config()
 
-        self.mqtt_forwarder = MQTTForwarder(self.mqtt_host)
+        self.mqtt_forwarder = MQTTForwarder(self.mqtt_host, self.mqtt_port)
         self.tag_list: List[str] = []
         self.running = True
 
