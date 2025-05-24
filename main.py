@@ -5,6 +5,7 @@ Reads live data from Canary and forwards it to MQTT broker.
 """
 
 import gc
+import json
 import logging
 import os
 import signal
@@ -117,10 +118,14 @@ class MQTTForwarder:
         self.client.disconnect()
 
     def publish_data(self, topic: str, data: Dict[str, Any]) -> bool:
-        """Publish data to MQTT topic."""
+        """Publish data to MQTT topic as JSON."""
         try:
-            result = self.client.publish(topic=topic, payload=str(data))
+            json_payload = json.dumps(data, ensure_ascii=False)
+            result = self.client.publish(topic=topic, payload=json_payload)
             return result.rc == mqtt.MQTT_ERR_SUCCESS
+        except (TypeError, ValueError) as e:
+            logger.error(f"Error serializing data to JSON for topic {topic}: {e}")
+            return False
         except Exception as e:
             logger.error(f"Error publishing to topic {topic}: {e}")
             return False
